@@ -46,7 +46,7 @@ const getSearch = () => {
   `;
 };
 
-const getFilterElement = ({caption, count, isChecked = false, isDisabled = false}) => {
+const getFilter = ({caption, count, isChecked = false, isDisabled = false}) => {
   return `
     <input 
         type="radio" 
@@ -65,7 +65,7 @@ const getFilterElement = ({caption, count, isChecked = false, isDisabled = false
   `;
 };
 
-const getFilter = () => {
+const getFilters = () => {
   const filters = [
     {caption: `All`, count: 13, isChecked: true},
     {caption: `Overdue`, count: 0, isDisabled: true},
@@ -78,7 +78,7 @@ const getFilter = () => {
 
   return `
     <section class="main__filter filter container">
-        ${filters.map((filter) => getFilterElement(filter)).join(``)}
+        ${filters.map((filter) => getFilter(filter)).join(``)}
     </section>
   `;
 };
@@ -379,8 +379,12 @@ const getEditCardForm = () => {
 const mainSection = document.querySelector(`.main`);
 const mainControlSection = document.querySelector(`.main__control`);
 
-mainControlSection.insertAdjacentHTML(`beforeend`, getMenu());
-mainSection.insertAdjacentHTML(`beforeend`, getSearch());
-mainSection.insertAdjacentHTML(`beforeend`, getFilter());
-mainSection.insertAdjacentHTML(`beforeend`, getBoard());
+const renderComponent = (container, template, position = `beforeend`) => {
+  container.insertAdjacentHTML(position, template);
+};
+
+renderComponent(mainControlSection, getMenu());
+renderComponent(mainSection, getSearch());
+renderComponent(mainSection, getFilters());
+renderComponent(mainSection, getBoard());
 
