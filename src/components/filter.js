@@ -1,35 +1,25 @@
-export const getFilters = () => {
-  const filters = [
-    {caption: `All`, count: 13, isChecked: true},
-    {caption: `Overdue`, count: 0, isDisabled: true},
-    {caption: `Today`, count: 0, isDisabled: true},
-    {caption: `Favorites`, count: 1},
-    {caption: `Repeating`, count: 1},
-    {caption: `Tags`, count: 1},
-    {caption: `Archive`, count: 115}
-  ];
-
+export const getFilters = (filters, tasks) => {
   return `
     <section class="main__filter filter container">
-        ${filters.map((filter) => getFilter(filter)).join(``)}
+        ${filters.map((filter) => getFilter(filter, tasks)).join(``)}
     </section>
   `;
 };
 
-const getFilter = ({caption, count, isChecked = false, isDisabled = false}) => {
+const getFilter = ({title, count, isChecked = false}, tasks) => {
   return `
     <input 
         type="radio" 
-        id="filter__${caption.toLowerCase()}" 
+        id="filter__${title.toLowerCase()}" 
         class="filter__input visually-hidden" 
         name="filter" 
         ${isChecked ? `checked` : ``}
-        ${isDisabled ? `disabled` : ``}>
+        ${count(tasks) === 0 ? `disabled` : ``}>
     <label 
-        for="filter__${caption.toLowerCase()}" 
-        class="filter__label">${caption} 
+        for="filter__${title.toLowerCase()}" 
+        class="filter__label">${title} 
             <span 
-                class="filter__${caption.toLowerCase()}-count">${count}
+                class="filter__${title.toLowerCase()}-count">${count(tasks)}
             </span>
     </label>
   `;
